@@ -1,6 +1,6 @@
 from typing import final
 from telegram import Update
-from telegram.ext import Applicationm, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 TOKEN: final = ''
 BOT_USERNAME: final = ''
@@ -53,9 +53,9 @@ if __name__ == '__main__':
      app = Application.builder().token(TOKEN).build()
      
      # commands
-     add.add_handler(CommandHandler('start', start_command))
-     add.add_handler(CommandHandler('help', start_command))
-     add.add_handler(CommandHandler('custom', start_command))
+     app.add_handler(CommandHandler('start', start_command))
+     app.add_handler(CommandHandler('help', start_command))
+     app.add_handler(CommandHandler('custom', start_command))
      
      # messages
      app.add_handler(MessageHandler(filter.TEXT, handle_message))
