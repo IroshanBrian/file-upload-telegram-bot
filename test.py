@@ -1,6 +1,0 @@
-
-
-TOKEN = 
-BOT_USERNAME = 
-
-print(TOKEN, BOT_USERNAME)
