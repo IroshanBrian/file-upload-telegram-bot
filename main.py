@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 TOKEN: final = ''
-BOT_USERNAME: final = ''
+BOT_USERNAME: final = '@QuestKnight_bot'
 
 
 # commands
@@ -13,7 +13,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
      await update.message.reply_text('Ok i`ll help you')
      
-async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
      await update.message.reply_text('This is custom command')
      
 # responses
@@ -36,6 +36,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
      
      print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
      
+     # group mention replies
      if message_type == 'group':
           if BOT_USERNAME in text:
                new_text: str = text.replace(BOT_USERNAME, '').strip()
@@ -46,6 +47,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
           print('Bot:', response)
           await update.message.reply_text(response)
 
+# error
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
      print(f'Update {update} caused error {context.error}')
      
@@ -54,11 +56,11 @@ if __name__ == '__main__':
      
      # commands
      app.add_handler(CommandHandler('start', start_command))
-     app.add_handler(CommandHandler('help', start_command))
-     app.add_handler(CommandHandler('custom', start_command))
+     app.add_handler(CommandHandler('help', help_command))
+     app.add_handler(CommandHandler('custom', custom_command))
      
      # messages
-     app.add_handler(MessageHandler(filter.TEXT, handle_message))
+     app.add_handler(MessageHandler(filters.TEXT, handle_message))
      
      
      # errors
@@ -66,6 +68,4 @@ if __name__ == '__main__':
      
      # polls the bot
      print('Polling...')
-     app.run_polling(poll_intervel=3)
-          
-               
+     app.run_polling(poll_interval=3)
