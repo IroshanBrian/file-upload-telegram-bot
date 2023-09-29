@@ -18,11 +18,10 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
      await update.message.reply_text('Ok i`ll help you')
      
-async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def _command(update: Update, context: ContextTypes.DEFAULT_TYPE):
      await update.message.reply_text('This is custom command')
      
 # responses
-
 def handle_response(text: str)-> str:
      processed: str = text.lower()
      
@@ -62,7 +61,7 @@ if __name__ == '__main__':
      # commands
      app.add_handler(CommandHandler('start', start_command))
      app.add_handler(CommandHandler('help', help_command))
-     app.add_handler(CommandHandler('custom', custom_command))
+     app.add_handler(CommandHandler('custom', _command))
      
      # messages
      app.add_handler(MessageHandler(filters.TEXT, handle_message))
