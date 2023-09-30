@@ -15,11 +15,8 @@ BOT_USERNAME = os.getenv("BOT_USERNAME")
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
      await update.message.reply_text('Hello! Yuta is at ur service 😀. How can i help you?')
      
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-     await update.message.reply_text('Ok i`ll help you')
-     
-async def _command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-     await update.message.reply_text('This is custom command')
+async def pic_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+     await update.message.reply_video('1.mp4')
      
 # responses
 def handle_response(text: str)-> str:
@@ -60,8 +57,7 @@ if __name__ == '__main__':
      
      # commands
      app.add_handler(CommandHandler('start', start_command))
-     app.add_handler(CommandHandler('help', help_command))
-     app.add_handler(CommandHandler('custom', _command))
+     app.add_handler(CommandHandler('pic', pic_command))
      
      # messages
      app.add_handler(MessageHandler(filters.TEXT, handle_message))
