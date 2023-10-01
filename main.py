@@ -1,6 +1,7 @@
 import os
 from typing import final
 import logging
+import time
 from telegram import Update, InputFile
 from telegram import Update
 from telegram.ext import (
@@ -24,7 +25,8 @@ load_dotenv()
 
 TOKEN = os.getenv("Token")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-UPLOAD_DIR = "./files/"
+UPLOAD_DIR = os.getenv("FOLDER_DIR")
+CHAT_ID = os.getenv("CHAT_ID")
 
 
 # commands
@@ -33,16 +35,37 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Hello! Yuta is at ur service 😀. How can i help you?"
     )
 
+async def send_list_of_files(update: Update, context: CallbackContext) -> None:
+    chat_id = update.message.chat_id
+    folder_path = UPLOAD_DIR
+    files_list = os.listdir(folder_path)
+    files_list_message = 'List of files in the folder:\n\n' + '\n'.join(files_list)
+    await context.bot.send_message(chat_id=chat_id, text=files_list_message)
+
+async def list_of_files(update: Update, context: CallbackContext) -> None:
+    await send_list_of_files(update, context)
+
+
 
 async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    file_name = update.message.text.split(" ", 1)[1]
-    file_path = f"{UPLOAD_DIR}/{file_name}"
+    folder_path = UPLOAD_DIR
 
-    if os.path.exists(file_path):
-        with open(file_path, "rb") as file:
-            await update.message.reply_document(document=file)
-    else:
-        await update.message.reply_text("File not found.")
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            with open(file_path, 'rb') as f:
+                context.bot.send_document(chat_id=CHAT_ID,document=f)
+                time.sleep(1)
+
+    
+    # file_name = update.message.text.split(" ", 1)[1]
+    # file_path = f"{UPLOAD_DIR}/{file_name}"
+
+    # if os.path.exists(file_path):
+    #     with open(file_path, "rb") as file:
+    #         await update.message.reply_document(document=file)
+    # else:
+    #     await update.message.reply_text("File not found.")
 
 
 # responses
@@ -87,6 +110,7 @@ if __name__ == "__main__":
     # commands
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("sendme", download_command))
+    app.add_handler(CommandHandler("ls", list_of_files))
 
     # messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
