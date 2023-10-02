@@ -68,8 +68,8 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for file in files:
             file_path = os.path.join(root, file)
             with open(file_path, 'rb') as f:
-                await context.bot.send_document(chat_id=CHAT_ID,document=f)
-                time.sleep(5)
+                await context.bot.send_document(chat_id=CHAT_ID,document=f,read_timeout=600, write_timeout=600, connect_timeout=600, pool_timeout=600)
+                time.sleep(1)
 
 async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     file_name = update.message.text.split(" ", 1)[1]
@@ -98,7 +98,7 @@ def handle_response(text: str) -> str:
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
-
+    await update.message.reply_text(f'Your Chat_ID is ({update.message.chat.id})')
     print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
 
 
@@ -119,7 +119,7 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == "__main__":
-    app = Application.builder().token(TOKEN).build()
+    app = Application.builder().token(TOKEN).read_timeout(60).write_timeout(60).build()
 
 # ----------------------------------------TG_COMMANDS---------------------------------------------#
     app.add_handler(CommandHandler("start", start_command))
@@ -127,6 +127,7 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("list", list_of_files))
     app.add_handler(CommandHandler("download", downloadSpecific_command))
     app.add_handler(CommandHandler("downloadAll", download_command))
+    app.add_handler(CommandHandler("chat", handle_message))
 
     # messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
@@ -136,4 +137,4 @@ if __name__ == "__main__":
 
 # ----------------------------------------POLLING---------------------------------------------#
     print("Bot is running..")
-    app.run_polling(poll_interval=3)
+    app.run_polling()
