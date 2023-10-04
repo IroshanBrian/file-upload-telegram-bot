@@ -71,7 +71,7 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for file in files:
             file_path = os.path.join(root, file)
             with open(file_path, 'rb') as f:
-                await context.bot.send_document(chat_id=CHAT_ID,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
+                await context.bot.send_video(chat_id=CHAT_ID,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
                 time.sleep(1)
 
 async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT_TYPE):    
@@ -80,10 +80,9 @@ async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT
 
     if os.path.exists(file_path):
         with open(file_path, "rb") as file:
-            await update.message.reply_video(read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
+            await update.message.reply_document(document=file,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
     else:
         await update.message.reply_text("File not found.")
-#document=file,
 
 # ----------------------------------------RESPONSES---------------------------------------------#
 def handle_response(text: str) -> str:
