@@ -12,8 +12,11 @@ from telegram.ext import (
     ContextTypes,
     CallbackContext,
 )
+import httpx
 from dotenv import load_dotenv
 load_dotenv()
+
+
 
 # ----------------------------------------LOGS---------------------------------------------#
 
@@ -35,7 +38,7 @@ CHAT_ID = os.getenv("CHAT_ID")
 # ----------------------------------------FUNCTIONS---------------------------------------------#
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Hello! Yuta is at ur service 😀. Type /help to see how can i help you?"
+        "Hello! GloriousKing is at ur service 😀. Type /help to see how can i help you?"
     )
     
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -68,7 +71,7 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for file in files:
             file_path = os.path.join(root, file)
             with open(file_path, 'rb') as f:
-                await context.bot.send_document(chat_id=CHAT_ID,document=f,read_timeout=600, write_timeout=600, connect_timeout=600, pool_timeout=600)
+                await context.bot.send_document(chat_id=CHAT_ID,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
                 time.sleep(1)
 
 async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT_TYPE):    
@@ -77,10 +80,10 @@ async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT
 
     if os.path.exists(file_path):
         with open(file_path, "rb") as file:
-            await update.message.reply_document(document=file)
+            await update.message.reply_video(read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
     else:
         await update.message.reply_text("File not found.")
-
+#document=file,
 
 # ----------------------------------------RESPONSES---------------------------------------------#
 def handle_response(text: str) -> str:
@@ -119,7 +122,7 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == "__main__":
-    app = Application.builder().token(TOKEN).read_timeout(60).write_timeout(60).build()
+    app = Application.builder().token(TOKEN).connect_timeout(60).pool_timeout(60).read_timeout(60).write_timeout(60).build()
 
 # ----------------------------------------TG_COMMANDS---------------------------------------------#
     app.add_handler(CommandHandler("start", start_command))
