@@ -12,8 +12,8 @@ from telegram.ext import (
     ContextTypes,
     CallbackContext,
 )
-import httpx
 from dotenv import load_dotenv
+from colorama import Fore
 load_dotenv()
 
 
@@ -32,7 +32,6 @@ logger = logging.getLogger(__name__)
 TOKEN = os.getenv("Token")
 BOT_USERNAME = os.getenv("BOT_USERNAME")
 UPLOAD_DIR = os.getenv("FOLDER_DIR")
-CHAT_ID = os.getenv("CHAT_ID")
 
 
 # ----------------------------------------FUNCTIONS---------------------------------------------#
@@ -66,12 +65,13 @@ async def list_of_files(update: Update, context: CallbackContext) -> None:
 
 async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     folder_path = UPLOAD_DIR
+    chat_id = update.message.chat_id
 
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             file_path = os.path.join(root, file)
             with open(file_path, 'rb') as f:
-                await context.bot.send_video(chat_id=CHAT_ID,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
+                await context.bot.send_document(chat_id,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
                 time.sleep(1)
 
 async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT_TYPE):    
@@ -100,8 +100,8 @@ def handle_response(text: str) -> str:
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
-    await update.message.reply_text(f'Your Chat_ID is ({update.message.chat.id})')
-    print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
+    await update.message.reply_text(f'Use /help to get command panel')
+    print( Fore.YELLOW + f'{update.message.chat.full_name} ({update.message.chat.id}) in {message_type}: "{text}"' + Fore.GREEN)
 
 
     if message_type == "group":
@@ -117,11 +117,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ----------------------------------------ERROR HANDLING---------------------------------------------#
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(f"Update {update} caused error {context.error}")
+    print(Fore.RED + f"Caused error : {context.error}" + Fore.GREEN)
 
 
 if __name__ == "__main__":
-    app = Application.builder().token(TOKEN).connect_timeout(60).pool_timeout(60).read_timeout(60).write_timeout(60).build()
+    app = Application.builder().token(TOKEN).connect_timeout(60).pool_timeout(60).read_timeout(60).write_timeout(60).get_updates_read_timeout(42).build()
 
 # ----------------------------------------TG_COMMANDS---------------------------------------------#
     app.add_handler(CommandHandler("start", start_command))
@@ -138,5 +138,5 @@ if __name__ == "__main__":
     app.add_error_handler(error)
 
 # ----------------------------------------POLLING---------------------------------------------#
-    print("Bot is running..")
-    app.run_polling()
+    print(Fore.BLUE + "Bot is running.." + Fore.GREEN)
+    app.run_polling(poll_interval=10)
