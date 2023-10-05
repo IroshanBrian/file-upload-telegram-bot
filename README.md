@@ -43,4 +43,14 @@ In the telegram chat use this commands:
 - `/downloadAll - Download all files in the folder`
 
 
+## Documentation
 
+[Python-Telegram-Bot](https://docs.python-telegram-bot.org/en/v20.6/#)
+
+## Credits
+
+- [@PTB](https://github.com/python-telegram-bot/python-telegram-bot)
+
+## Support
+
+For support, email dev.iroshanbrian@gmail.com.
