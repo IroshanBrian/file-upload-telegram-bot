@@ -9,16 +9,16 @@
 To deploy this project run
 
 ```bash
-  sudo apt update && apt upgrade
+sudo apt update && apt upgrade
 ```
 ```bash
-  git clone https://github.com/IroshanBrian/file-upload-telegram-bot
+git clone https://github.com/IroshanBrian/file-upload-telegram-bot
 ```
 ```bash
-  cd file-upload-telegram-bot
+cd file-upload-telegram-bot
 ```
 ```bash
-  pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 ## Configuration
 
@@ -32,7 +32,7 @@ file and rename it to `.env`
 ## Usage
  Run the python file
 ```bash
-  python3 main.py
+python3 main.py
 ```
 In the telegram chat use this commands:
 
