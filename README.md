@@ -1,4 +1,4 @@
-# Files upload from server to telegram bot
+# Files upload from server to telegram
 
 
 ## Requirements
