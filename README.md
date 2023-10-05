@@ -16,8 +16,11 @@ To deploy this project run
 ```bash
   pip3 install -r requirements.txt
 ```
-## Usage
+## Configuration
 
+You have to configur the `example.env` file 
+
+## Usage
  ``
 
 ```bash

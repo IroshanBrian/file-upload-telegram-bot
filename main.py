@@ -14,8 +14,6 @@ from telegram.ext import (
 )
 from dotenv import load_dotenv
 from colorama import Fore
-load_dotenv()
-
 
 
 # ----------------------------------------LOGS---------------------------------------------#
@@ -28,16 +26,15 @@ logger = logging.getLogger(__name__)
 
 
 # ----------------------------------------CONFIG---------------------------------------------#
-
+load_dotenv()
 TOKEN = os.getenv("Token")
-BOT_USERNAME = os.getenv("BOT_USERNAME")
 UPLOAD_DIR = os.getenv("FOLDER_DIR")
 
 
 # ----------------------------------------FUNCTIONS---------------------------------------------#
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "Hello! GloriousKing is at ur service 😀. Type /help to see how can i help you?"
+        "Hello! Type /help to see how can i help you?"
     )
     
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
