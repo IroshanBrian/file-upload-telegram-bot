@@ -25,7 +25,7 @@ pip3 install -r requirements.txt
 You have to configure the `example.env` 
 
 - `Token= !Your telegram bot token`
-- `FOLDER_DIR=!Your server folder`
+- `FOLDER_DIR=!Your server folder path`
 
 file and rename it to `.env`
 
