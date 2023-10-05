@@ -72,7 +72,7 @@ async def download_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             file_path = os.path.join(root, file)
             with open(file_path, 'rb') as f:
                 await context.bot.send_document(chat_id,document=f,read_timeout=60, write_timeout=60, connect_timeout=60, pool_timeout=60)
-                time.sleep(1)
+                time.sleep(5)
 
 async def downloadSpecific_command(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     file_name = update.message.text.split(" ", 1)[1]
